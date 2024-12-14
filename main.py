@@ -201,8 +201,17 @@ def ausfuellen(pdfdaten):
         auto_regenerate=False,
     )
 
-    with open("e2_ausgefuellt_" + pdfdaten[0] + ".pdf", "wb") as output_stream:
+    # Define the output folder
+    output_folder = "output"
+    os.makedirs(output_folder, exist_ok=True)  # Ensure the folder exists
+
+    # Define the output file path
+    output_filename = f"e2_ausgefuellt_{pdfdaten[0]}.pdf"
+    output_path = os.path.join(output_folder, output_filename)
+
+    with open(output_path, "wb") as output_stream:
         writer.write(output_stream)
+
 def flatten(name):
     # Specify the input and output PDF file paths
     inputFile = "e2_ausgefuellt_" + name + ".pdf"
@@ -252,13 +261,7 @@ class Frm_main(QMainWindow, Ui_frm_main):
 
         #aus eigener Instanz (GUI) setupUI Methode aufrufen
         self.setupUi(self)
-
-        #Liste der Klasse erstellen mit allen edit-feldern
-        self.liste_kunde=[self.edit_kundennr, self.edit_name, self.edit_vorname, self.edit_strasse, self.edit_hausnr, self.edit_plz, self.edit_ort]
-        self.liste_daten=[self.edit_wr_hersteller, self.edit_wr_modell, self.edit_wr_anzahl, self.edit_wr_scheinleistung, self.edit_wr_wirkleistung, self.edit_pv_leistung]
-
         self.bt_pdf_erstellen.clicked.connect(self.pdf_erstellen)
-
         self.table_widget.itemSelectionChanged.connect(self.on_row_selected)
 
     def on_row_selected(self):
@@ -275,23 +278,36 @@ class Frm_main(QMainWindow, Ui_frm_main):
             plz = self.table_widget.item(selected_row, 6).text()
             ort = self.table_widget.item(selected_row, 7).text()
 
-            self.edit_kundennr.setText(id)
-            self.edit_name.setText(name)
-            self.edit_vorname.setText(vorname)
-            self.edit_strasse.setText(strasse)
-            self.edit_hausnr.setText(hausNr)
-            self.edit_plz.setText(plz)
-            self.edit_ort.setText(ort)
+            self.customer_fields["edit_kundennr"].setText(id)
+            self.customer_fields["edit_name"].setText(name)
+            self.customer_fields["edit_vorname"].setText(vorname)
+            self.customer_fields["edit_strasse"].setText(strasse)
+            self.customer_fields["edit_hausnr"].setText(hausNr)
+            self.customer_fields["edit_plz"].setText(plz)
+            self.customer_fields["edit_ort"].setText(ort)
 
-            self.edit_wr_hersteller.setText("Kostal")
-            self.edit_wr_modell.setText("Piko 6")
-            self.edit_wr_anzahl.setText("1")
-            self.edit_wr_wirkleistung.setText("6")
-            self.edit_wr_scheinleistung.setText("6")
-            self.edit_pv_leistung.setText("8,2")
+            self.liste_daten_fields["edit_wr_hersteller"].setText("Kostal")
+            self.liste_daten_fields["edit_wr_modell"].setText("Piko 6")
+            self.liste_daten_fields["edit_wr_anzahl"].setText("1")
+            self.liste_daten_fields["edit_wr_wirkleistung"].setText("6")
+            self.liste_daten_fields["edit_wr_scheinleistung"].setText("6")
+            self.liste_daten_fields["edit_pv_leistung"].setText("8,2")
 
     def pdf_erstellen(self):
-        pdfdaten = self.edit_name.text(),self.edit_vorname.text(), self.edit_strasse.text(), self.edit_hausnr.text(), self.edit_plz.text(), self.edit_ort.text(),self.edit_wr_hersteller.text(), self.edit_wr_modell.text(), self.edit_wr_anzahl.text(), self.edit_wr_scheinleistung.text(), self.edit_wr_wirkleistung.text(), self.edit_pv_leistung.text()
+        pdfdaten = (
+            self.customer_fields["edit_name"].text(),
+            self.customer_fields["edit_vorname"].text(),
+            self.customer_fields["edit_strasse"].text(),
+            self.customer_fields["edit_hausnr"].text(),
+            self.customer_fields["edit_plz"].text(),
+            self.customer_fields["edit_ort"].text(),
+            self.liste_daten_fields["edit_wr_hersteller"].text(),
+            self.liste_daten_fields["edit_wr_modell"].text(),
+            self.liste_daten_fields["edit_wr_anzahl"].text(),
+            self.liste_daten_fields["edit_wr_scheinleistung"].text(),
+            self.liste_daten_fields["edit_wr_wirkleistung"].text(),
+            self.liste_daten_fields["edit_pv_leistung"].text(),
+        )
         ausfuellen(pdfdaten)
         flatten(pdfdaten[0])
 

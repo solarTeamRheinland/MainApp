@@ -18,7 +18,7 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QWidget, QTableWidget, QTableWidgetItem)
+    QPushButton, QSizePolicy, QStatusBar, QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout, QGridLayout, QHBoxLayout)
 
 import re
 
@@ -26,174 +26,165 @@ class Ui_frm_main(object):
     def setupUi(self, frm_main):
         if not frm_main.objectName():
             frm_main.setObjectName(u"frm_main")
-        frm_main.resize(778, 529)
-        self.actionBeenden = QAction(frm_main)
-        self.actionBeenden.setObjectName(u"actionBeenden")
-        self.actionKunden_verwalten = QAction(frm_main)
-        self.actionKunden_verwalten.setObjectName(u"actionKunden_verwalten")
-        self.actionTechnische_Daten_verwalten = QAction(frm_main)
-        self.actionTechnische_Daten_verwalten.setObjectName(u"actionTechnische_Daten_verwalten")
+        frm_main.resize(800, 600)
+
+        # Central widget
         self.centralwidget = QWidget(frm_main)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.bt_pdf_erstellen = QPushButton(self.centralwidget)
-        self.bt_pdf_erstellen.setObjectName(u"bt_pdf_erstellen")
-        self.bt_pdf_erstellen.setGeometry(QRect(660, 440, 100, 30))
-        font = QFont()
-        font.setPointSize(8)
-        font.setBold(True)
-        self.bt_pdf_erstellen.setFont(font)
+
+        # Main layout
+        self.main_layout = QVBoxLayout(self.centralwidget)
+        self.main_layout.setContentsMargins(10, 10, 10, 10)
+        self.main_layout.setSpacing(15)
+
+        # Logo
+        self.lb_logo = QLabel(self.centralwidget)
+        self.lb_logo.setObjectName(u"lb_logo")
+        self.lb_logo.setPixmap(QPixmap(u"../../logo_neu-removebg-preview.png"))
+        self.lb_logo.setScaledContents(True)
+        self.lb_logo.setMaximumSize(QSize(200, 60))
+
+        self.main_layout.addWidget(self.lb_logo, alignment=Qt.AlignLeft)
+
+        self.header_layout = QHBoxLayout()
+        self.header_layout.setContentsMargins(0, 0, 0, 0)  # Remove unnecessary margins
+        self.header_layout.setSpacing(5)  # Minimal spacing between label and button
+
         self.lb_kunden = QLabel(self.centralwidget)
         self.lb_kunden.setObjectName(u"lb_kunden")
-        self.lb_kunden.setGeometry(QRect(30, 130, 111, 16))
-        font1 = QFont()
-        font1.setPointSize(10)
-        self.lb_kunden.setFont(font1)
-        self.dp_prozess = QComboBox(self.centralwidget)
-        self.dp_prozess.addItem("")
-        self.dp_prozess.addItem("")
-        self.dp_prozess.addItem("")
-        self.dp_prozess.addItem("")
-        self.dp_prozess.setObjectName(u"dp_prozess")
-        self.dp_prozess.setGeometry(QRect(280, 155, 150, 30))
-        self.lb_prozess = QLabel(self.centralwidget)
-        self.lb_prozess.setObjectName(u"lb_prozess")
-        self.lb_prozess.setGeometry(QRect(280, 130, 111, 16))
-        self.lb_prozess.setFont(font1)
-        self.lb_name = QLabel(self.centralwidget)
-        self.lb_name.setObjectName(u"lb_name")
-        self.lb_name.setGeometry(QRect(30, 290, 49, 16))
-        self.lb_strasse = QLabel(self.centralwidget)
-        self.lb_strasse.setObjectName(u"lb_strasse")
-        self.lb_strasse.setGeometry(QRect(30, 350, 49, 16))
+        self.lb_kunden.setText("Kunden")
+        self.lb_kunden.setFont(QFont("Arial", 12, QFont.Bold))
+
+        self.bt_refresh = QPushButton(self.centralwidget)
+        self.bt_refresh.setObjectName(u"bt_refresh")
+        self.bt_refresh.setText("Update Data")
+        self.bt_refresh.setFont(QFont("Arial", 10, QFont.Bold))
+        self.bt_refresh.setFixedWidth(120)  # Fix the button width
+        self.bt_refresh.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)  # Prevent it from stretching
+
+        # Add label and button to the horizontal layout
+        self.header_layout.addWidget(self.lb_kunden)
+        self.header_layout.addWidget(self.bt_refresh)
+
+        # Align the layout to the left
+        self.header_layout.addStretch()  # Add a stretch to ensure the button stays close to the label
+
+        # Add the horizontal layout to the main layout
+        self.main_layout.addLayout(self.header_layout)
 
         self.table_widget = QTableWidget(self.centralwidget)
-        self.table_widget.setGeometry(50, 10, 670, 80)  # Set geometry for visibility
+        self.table_widget.setObjectName(u"table_widget")
+        self.table_widget.setColumnCount(3)  # Example column count
+        self.table_widget.setHorizontalHeaderLabels(["ID", "Name", "Adresse"])
+        self.table_widget.setAlternatingRowColors(True)
         self.table_widget.verticalHeader().setVisible(False)
         self.table_widget.setSelectionBehavior(QTableWidget.SelectRows)
 
+        # Adding some placeholder data to the table
+        for i in range(5):  # Example rows
+            self.table_widget.insertRow(i)
+            self.table_widget.setItem(i, 0, QTableWidgetItem(f"Kunde {i+1}"))
+            self.table_widget.setItem(i, 1, QTableWidgetItem("Max Mustermann"))
+            self.table_widget.setItem(i, 2, QTableWidgetItem("Musterstr. 1"))
 
-        self.line_oben = QFrame(self.centralwidget)
-        self.line_oben.setObjectName(u"line_oben")
-        self.line_oben.setGeometry(QRect(0, 100, 780, 20))
-        self.line_oben.setFrameShape(QFrame.Shape.HLine)
-        self.line_oben.setFrameShadow(QFrame.Shadow.Sunken)
-        self.lb_ort = QLabel(self.centralwidget)
-        self.lb_ort.setObjectName(u"lb_ort")
-        self.lb_ort.setGeometry(QRect(30, 440, 49, 16))
-        self.lb_plz = QLabel(self.centralwidget)
-        self.lb_plz.setObjectName(u"lb_plz")
-        self.lb_plz.setGeometry(QRect(30, 410, 49, 16))
-        self.lb_hausnr = QLabel(self.centralwidget)
-        self.lb_hausnr.setObjectName(u"lb_hausnr")
-        self.lb_hausnr.setGeometry(QRect(30, 380, 91, 16))
-        self.lb_vorname = QLabel(self.centralwidget)
-        self.lb_vorname.setObjectName(u"lb_vorname")
-        self.lb_vorname.setGeometry(QRect(30, 320, 71, 16))
-        self.lb_kundennr = QLabel(self.centralwidget)
-        self.lb_kundennr.setObjectName(u"lb_kundennr")
-        self.lb_kundennr.setGeometry(QRect(30, 260, 101, 16))
-        self.lb_wr_hersteller = QLabel(self.centralwidget)
-        self.lb_wr_hersteller.setObjectName(u"lb_wr_hersteller")
-        self.lb_wr_hersteller.setGeometry(QRect(300, 260, 141, 16))
-        self.lb_wr_scheinleistung = QLabel(self.centralwidget)
-        self.lb_wr_scheinleistung.setObjectName(u"lb_wr_scheinleistung")
-        self.lb_wr_scheinleistung.setGeometry(QRect(300, 350, 171, 16))
-        self.lb_wr_anzahl = QLabel(self.centralwidget)
-        self.lb_wr_anzahl.setObjectName(u"lb_wr_anzahl")
-        self.lb_wr_anzahl.setGeometry(QRect(300, 320, 131, 16))
-        self.lb_wr_wirkleistung = QLabel(self.centralwidget)
-        self.lb_wr_wirkleistung.setObjectName(u"lb_wr_wirkleistung")
-        self.lb_wr_wirkleistung.setGeometry(QRect(300, 380, 171, 16))
-        self.lb_wr_modell = QLabel(self.centralwidget)
-        self.lb_wr_modell.setObjectName(u"lb_wr_modell")
-        self.lb_wr_modell.setGeometry(QRect(300, 290, 131, 16))
-        self.lb_pv_leistung = QLabel(self.centralwidget)
-        self.lb_pv_leistung.setObjectName(u"lb_pv_leistung")
-        self.lb_pv_leistung.setGeometry(QRect(300, 410, 131, 16))
-        self.edit_kundennr = QLineEdit(self.centralwidget)
-        self.edit_kundennr.setObjectName(u"edit_kundennr")
-        self.edit_kundennr.setGeometry(QRect(130, 260, 130, 16))
-        self.edit_name = QLineEdit(self.centralwidget)
-        self.edit_name.setObjectName(u"edit_name")
-        self.edit_name.setGeometry(QRect(130, 290, 130, 16))
-        self.edit_vorname = QLineEdit(self.centralwidget)
-        self.edit_vorname.setObjectName(u"edit_vorname")
-        self.edit_vorname.setGeometry(QRect(130, 320, 130, 16))
-        self.edit_strasse = QLineEdit(self.centralwidget)
-        self.edit_strasse.setObjectName(u"edit_strasse")
-        self.edit_strasse.setGeometry(QRect(130, 350, 130, 16))
-        self.edit_hausnr = QLineEdit(self.centralwidget)
-        self.edit_hausnr.setObjectName(u"edit_hausnr")
-        self.edit_hausnr.setGeometry(QRect(130, 380, 130, 16))
-        self.edit_plz = QLineEdit(self.centralwidget)
-        self.edit_plz.setObjectName(u"edit_plz")
-        self.edit_plz.setGeometry(QRect(130, 410, 130, 16))
-        self.edit_ort = QLineEdit(self.centralwidget)
-        self.edit_ort.setObjectName(u"edit_ort")
-        self.edit_ort.setGeometry(QRect(130, 440, 130, 16))
-        self.edit_wr_hersteller = QLineEdit(self.centralwidget)
-        self.edit_wr_hersteller.setObjectName(u"edit_wr_hersteller")
-        self.edit_wr_hersteller.setGeometry(QRect(480, 260, 130, 16))
-        self.edit_wr_modell = QLineEdit(self.centralwidget)
-        self.edit_wr_modell.setObjectName(u"edit_wr_modell")
-        self.edit_wr_modell.setGeometry(QRect(480, 290, 130, 16))
-        self.edit_wr_anzahl = QLineEdit(self.centralwidget)
-        self.edit_wr_anzahl.setObjectName(u"edit_wr_anzahl")
-        self.edit_wr_anzahl.setGeometry(QRect(480, 320, 130, 16))
-        self.edit_wr_scheinleistung = QLineEdit(self.centralwidget)
-        self.edit_wr_scheinleistung.setObjectName(u"edit_wr_scheinleistung")
-        self.edit_wr_scheinleistung.setGeometry(QRect(480, 350, 130, 16))
-        self.edit_wr_wirkleistung = QLineEdit(self.centralwidget)
-        self.edit_wr_wirkleistung.setObjectName(u"edit_wr_wirkleistung")
-        self.edit_wr_wirkleistung.setGeometry(QRect(480, 380, 130, 16))
-        self.edit_pv_leistung = QLineEdit(self.centralwidget)
-        self.edit_pv_leistung.setObjectName(u"edit_pv_leistung")
-        self.edit_pv_leistung.setGeometry(QRect(480, 410, 130, 16))
-        self.line_unten = QFrame(self.centralwidget)
-        self.line_unten.setObjectName(u"line_unten")
-        self.line_unten.setGeometry(QRect(-10, 200, 791, 20))
-        self.line_unten.setMaximumSize(QSize(10000000, 16777215))
-        self.line_unten.setFrameShape(QFrame.Shape.HLine)
-        self.line_unten.setFrameShadow(QFrame.Shadow.Sunken)
-        self.lb_logo = QLabel(self.centralwidget)
-        self.lb_logo.setObjectName(u"lb_logo")
-        self.lb_logo.setEnabled(True)
-        self.lb_logo.setGeometry(QRect(30, 20, 160, 60))
-        self.lb_logo.setMaximumSize(QSize(100000, 1000000))
-        self.lb_logo.setPixmap(QPixmap(u"../../logo_neu-removebg-preview.png"))
-        self.lb_logo.setScaledContents(True)
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(30, 230, 91, 16))
-        font2 = QFont()
-        font2.setBold(True)
-        self.label.setFont(font2)
-        self.label_2 = QLabel(self.centralwidget)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(300, 230, 131, 16))
-        self.label_2.setFont(font2)
+        self.main_layout.addWidget(self.table_widget)
+
+        # Customer Details Section
+        self.lb_customer_details = QLabel(self.centralwidget)
+        self.lb_customer_details.setText("Kundendaten")
+        self.lb_customer_details.setFont(QFont("Arial", 10, QFont.Bold))
+
+        self.main_layout.addWidget(self.lb_customer_details)
+
+        # Create a grid layout for customer details
+        self.grid_layout = QGridLayout()
+        self.grid_layout.setHorizontalSpacing(20)  # Add spacing between left and right sections
+
+        self.customer_fields = {}
+        self.liste_daten_fields = {}
+
+        self.customer_field_definitions = [
+            ("Kundennr:", "edit_kundennr"),
+            ("Name:", "edit_name"),
+            ("Vorname:", "edit_vorname"),
+            ("Strasse:", "edit_strasse"),
+            ("Hausnummer:", "edit_hausnr"),
+            ("PLZ:", "edit_plz"),
+            ("Ort:", "edit_ort"),
+        ]
+
+        for row, (label_text, object_name) in enumerate(self.customer_field_definitions):
+            self.customer_fields[object_name] = self.create_field(self.grid_layout, label_text, object_name, row, 0)
+
+        # Create liste_daten fields (right)
+        self.liste_daten_field_definitions = [
+            ("Wechselrichter Hersteller:", "edit_wr_hersteller"),
+            ("Wechselrichter Modell:", "edit_wr_modell"),
+            ("Anzahl Wechselrichter:", "edit_wr_anzahl"),
+            ("Scheinleistung (kVA):", "edit_wr_scheinleistung"),
+            ("Wirkleistung (kW):", "edit_wr_wirkleistung"),
+            ("PV-Leistung (kWp):", "edit_pv_leistung"),
+        ]
+
+        for row, (label_text, object_name) in enumerate(self.liste_daten_field_definitions):
+            self.liste_daten_fields[object_name] = self.create_field(self.grid_layout, label_text, object_name, row, 2)
+
+        # Add grid layout to the main layout
+        self.main_layout.addLayout(self.grid_layout)
+
+        # Store lists for further referencing
+        self.liste_kunde = list(self.customer_fields.values())
+        self.liste_daten = list(self.liste_daten_fields.values())
+
+        # Add PDF Button
+        self.bt_pdf_erstellen = QPushButton(self.centralwidget)
+        self.bt_pdf_erstellen.setObjectName(u"bt_pdf_erstellen")
+        self.bt_pdf_erstellen.setText("PDF Erstellen")
+        self.bt_pdf_erstellen.setFont(QFont("Arial", 10, QFont.Bold))
+        self.main_layout.addWidget(self.bt_pdf_erstellen, alignment=Qt.AlignRight)
+
         frm_main.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(frm_main)
-        self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 778, 22))
-        self.menuDatei = QMenu(self.menubar)
-        self.menuDatei.setObjectName(u"menuDatei")
-        self.menuStammdaten = QMenu(self.menubar)
-        self.menuStammdaten.setObjectName(u"menuStammdaten")
-        frm_main.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(frm_main)
-        self.statusbar.setObjectName(u"statusbar")
-        frm_main.setStatusBar(self.statusbar)
 
-        self.menubar.addAction(self.menuDatei.menuAction())
-        self.menubar.addAction(self.menuStammdaten.menuAction())
+        # Menu and Status Bar
+        self.menubar = QMenuBar(frm_main)
+        self.menuDatei = QMenu(self.menubar)
+        self.menuDatei.setTitle("Datei")
+        self.menuStammdaten = QMenu(self.menubar)
+        self.menuStammdaten.setTitle("Stammdaten")
+        frm_main.setMenuBar(self.menubar)
+
+        self.actionBeenden = QAction("Beenden", frm_main)
+        self.actionKunden_verwalten = QAction("Kunden verwalten", frm_main)
+        self.actionTechnische_Daten_verwalten = QAction("Technische Daten verwalten", frm_main)
+
         self.menuDatei.addAction(self.actionBeenden)
         self.menuStammdaten.addAction(self.actionKunden_verwalten)
         self.menuStammdaten.addAction(self.actionTechnische_Daten_verwalten)
 
-        self.retranslateUi(frm_main)
+        self.menubar.addMenu(self.menuDatei)
+        self.menubar.addMenu(self.menuStammdaten)
+
+        self.statusbar = QStatusBar(frm_main)
+        frm_main.setStatusBar(self.statusbar)
 
         QMetaObject.connectSlotsByName(frm_main)
+
+    def create_field(self, layout, label_text, object_name, row, column):
+        """Helper function to create and add a labeled field to the layout."""
+        label = QLabel(self.centralwidget)
+        label.setText(label_text)
+        label.setFont(QFont("Arial", 10))
+        layout.addWidget(label, row, column, alignment=Qt.AlignRight)
+
+        line_edit = QLineEdit(self.centralwidget)
+        line_edit.setObjectName(object_name)
+        line_edit.setFixedWidth(200)
+        layout.addWidget(line_edit, row, column + 1)
+
+        return line_edit
+
+
+
     # setupUi
 
     def retranslateUi(self, frm_main):
