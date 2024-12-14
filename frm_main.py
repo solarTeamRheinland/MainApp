@@ -18,7 +18,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QWidget)
+    QPushButton, QSizePolicy, QStatusBar, QWidget, QTableWidget, QTableWidgetItem)
+
+import re
 
 class Ui_frm_main(object):
     def setupUi(self, frm_main):
@@ -69,9 +71,13 @@ class Ui_frm_main(object):
         self.lb_strasse = QLabel(self.centralwidget)
         self.lb_strasse.setObjectName(u"lb_strasse")
         self.lb_strasse.setGeometry(QRect(30, 350, 49, 16))
-        self.bt_kundenkartei = QPushButton(self.centralwidget)
-        self.bt_kundenkartei.setObjectName(u"bt_kundenkartei")
-        self.bt_kundenkartei.setGeometry(QRect(280, 40, 141, 30))
+
+        self.table_widget = QTableWidget(self.centralwidget)
+        self.table_widget.setGeometry(50, 10, 670, 80)  # Set geometry for visibility
+        self.table_widget.verticalHeader().setVisible(False)
+        self.table_widget.setSelectionBehavior(QTableWidget.SelectRows)
+
+
         self.line_oben = QFrame(self.centralwidget)
         self.line_oben.setObjectName(u"line_oben")
         self.line_oben.setGeometry(QRect(0, 100, 780, 20))
@@ -199,7 +205,7 @@ class Ui_frm_main(object):
     def retranslateUi(self, frm_main):
         frm_main.setWindowTitle(QCoreApplication.translate("frm_main", u"MainWindow", None))
         self.actionBeenden.setText(QCoreApplication.translate("frm_main", u"Beenden", None))
-        self.actionKunden_verwalten.setText(QCoreApplication.translate("frm_main", u"Kunden xxxx", None))
+        self.actionKunden_verwalten.setText(QCoreApplication.translate("frm_main", u"Kunden verwalten", None))
         self.actionTechnische_Daten_verwalten.setText(QCoreApplication.translate("frm_main", u"Technische Daten verwalten", None))
         self.bt_pdf_erstellen.setText(QCoreApplication.translate("frm_main", u"PDF erstellen", None))
         self.dp_kunden.setItemText(0, QCoreApplication.translate("frm_main", u"Siegbert Sonnenschein", None))
@@ -215,7 +221,6 @@ class Ui_frm_main(object):
         self.lb_prozess.setText(QCoreApplication.translate("frm_main", u"Prozess ausw\u00e4hlen:", None))
         self.lb_name.setText(QCoreApplication.translate("frm_main", u"Name:", None))
         self.lb_strasse.setText(QCoreApplication.translate("frm_main", u"Stra\u00dfe:", None))
-        self.bt_kundenkartei.setText(QCoreApplication.translate("frm_main", u"Kundenkartei xxx", None))
         self.lb_ort.setText(QCoreApplication.translate("frm_main", u"Ort:", None))
         self.lb_plz.setText(QCoreApplication.translate("frm_main", u"PLZ:", None))
         self.lb_hausnr.setText(QCoreApplication.translate("frm_main", u"Hausnummer:", None))
@@ -234,3 +239,35 @@ class Ui_frm_main(object):
         self.menuStammdaten.setTitle(QCoreApplication.translate("frm_main", u"Stammdaten", None))
     # retranslateUi
 
+    def to_normal_case(self, text):
+        """
+        Converts camelCase or snake_case to Normal Case.
+        """
+        # Convert camelCase to spaces
+        text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)
+        # Replace underscores with spaces
+        text = text.replace("_", " ")
+        # Capitalize the first letter of each word
+        return text.title()
+
+    def populate_table_with_data(self, data_list):
+        """
+        Populates the table with a list of dictionaries.
+        :param data_list: List of dictionaries with keys as column names and values as row data.
+        """
+        if not data_list:
+            print("No data to display")
+            return
+
+        # Extract column names from the first dictionary
+        column_names = [self.to_normal_case(col) for col in data_list[0].keys()]
+
+        # Set up the table dimensions
+        self.table_widget.setColumnCount(len(column_names))
+        self.table_widget.setHorizontalHeaderLabels(column_names)
+        self.table_widget.setRowCount(len(data_list))
+
+        # Populate the table
+        for row_index, row_data in enumerate(data_list):
+            for col_index, (key, value) in enumerate(row_data.items()):
+                self.table_widget.setItem(row_index, col_index, QTableWidgetItem(str(value)))

@@ -259,8 +259,30 @@ class Frm_main(QMainWindow, Ui_frm_main):
 
         self.dp_kunden.activated.connect(self.ausfuellen)
         self.bt_pdf_erstellen.clicked.connect(self.pdf_erstellen)
-        self.bt_kundenkartei.clicked.connect(self.kundenkartei_anzeigen)
 
+        self.table_widget.itemSelectionChanged.connect(self.on_row_selected)
+
+    def on_row_selected(self):
+        """
+        Prints the value of the second column of the selected row.
+        """
+        selected_row = self.table_widget.currentRow()  # Get the index of the selected row
+        if selected_row >= 0:  # Ensure a valid row is selected
+            id = self.table_widget.item(selected_row, 0).text()  
+            vorname = self.table_widget.item(selected_row, 2).text()  
+            name = self.table_widget.item(selected_row, 3).text()  
+            strasse = self.table_widget.item(selected_row, 4).text()  
+            hausNr = self.table_widget.item(selected_row, 5).text()
+            plz = self.table_widget.item(selected_row, 6).text()
+            ort = self.table_widget.item(selected_row, 7).text()
+
+            self.edit_kundennr.setText(id)
+            self.edit_name.setText(name)
+            self.edit_vorname.setText(vorname)
+            self.edit_strasse.setText(strasse)
+            self.edit_hausnr.setText(hausNr)
+            self.edit_plz.setText(plz)
+            self.edit_ort.setText(ort)
 
     def ausfuellen(self):
         if self.dp_kunden.currentText() == 'Siegbert Sonnenschein':
@@ -336,46 +358,51 @@ class Frm_main(QMainWindow, Ui_frm_main):
         ausfuellen(pdfdaten)
         flatten(pdfdaten[0])
 
-    def kundenkartei_anzeigen(self):
-        frm_kundenkartei.show()
+def fetch_data_from_db():
+    # Connection string for Azure SQL Database
+    connection_string = (
+        "DRIVER={ODBC Driver 17 for SQL Server};"
+        "SERVER=tcp:solarteamrheinland.database.windows.net,1433;"
+        "DATABASE=strDb;"
+        "UID=stradmin;"
+        "PWD=-u-D%-g2)?6$yzB;"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
+        "Connection Timeout=30;"
+    )
 
+    try:
+        # Connect to the database
+        conn = pyodbc.connect(connection_string)
+        cursor = conn.cursor()
+        print("Connected to the database successfully!")
 
-#Verknüpfung Datenbank, in Klammern = Treiber der DB unterstützt
-# Connection string for Azure SQL Database
-connection_string = (
-    "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=tcp:solarteamrheinland.database.windows.net,1433;"
-    "DATABASE=strDb;"
-    "UID=stradmin;"
-    "PWD=-u-D%-g2)?6$yzB;"
-    "Encrypt=yes;"
-    "TrustServerCertificate=no;"
-    "Connection Timeout=30;"
-)
+        # Example query
+        query = "SELECT TOP 10 * FROM dbo.Clients"
+        cursor.execute(query)
 
-try:
-    # Connect to the database
-    conn = pyodbc.connect(connection_string)
-    cursor = conn.cursor()
-    print("Connected to the database successfully!")
+        # Fetch all rows and column names
+        rows = cursor.fetchall()
+        column_names = [desc[0] for desc in cursor.description]
 
-    # Example query
-    cursor.execute("SELECT TOP 10 * FROM dbo.Clients")
-    for row in cursor.fetchall():
-        print(row)
+        # Convert to a list of dictionaries or objects
+        result = [dict(zip(column_names, row)) for row in rows]
 
-    # Close the connection
-    conn.close()
-except Exception as e:
-    print("Error:", e)
+        # Close the connection
+        conn.close()
 
+        return result
+
+    except Exception as e:
+        print("Error:", e)
+        return []
 
 #Objekte anlegen: app=Anwendung, frm = Formular
-app = QApplication()
+data_list = fetch_data_from_db()
 
-frm_kundenkartei = Frm_kundenkartei()
+app = QApplication()
 frm_main = Frm_main()
-#Formular anzeigen
+frm_main.populate_table_with_data(data_list)
 frm_main.show()
 
 #Anwendung ausführen
