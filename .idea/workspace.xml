@@ -23,12 +23,12 @@
     &quot;assignee&quot;: &quot;solarTeamRheinland&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/solarTeamRheinland/MainApp.git",
-    "accountId": "56dd1350-49c4-4daf-b386-c50a0eb92bc1"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/solarTeamRheinland/MainApp.git&quot;,
+    &quot;accountId&quot;: &quot;56dd1350-49c4-4daf-b386-c50a0eb92bc1&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>

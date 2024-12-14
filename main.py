@@ -257,7 +257,6 @@ class Frm_main(QMainWindow, Ui_frm_main):
         self.liste_kunde=[self.edit_kundennr, self.edit_name, self.edit_vorname, self.edit_strasse, self.edit_hausnr, self.edit_plz, self.edit_ort]
         self.liste_daten=[self.edit_wr_hersteller, self.edit_wr_modell, self.edit_wr_anzahl, self.edit_wr_scheinleistung, self.edit_wr_wirkleistung, self.edit_pv_leistung]
 
-        self.dp_kunden.activated.connect(self.ausfuellen)
         self.bt_pdf_erstellen.clicked.connect(self.pdf_erstellen)
 
         self.table_widget.itemSelectionChanged.connect(self.on_row_selected)
@@ -284,77 +283,15 @@ class Frm_main(QMainWindow, Ui_frm_main):
             self.edit_plz.setText(plz)
             self.edit_ort.setText(ort)
 
-    def ausfuellen(self):
-        if self.dp_kunden.currentText() == 'Siegbert Sonnenschein':
-            self.edit_kundennr.setText(kunde_1[0])
-            self.edit_name.setText(kunde_1[1])
-            self.edit_vorname.setText(kunde_1[2])
-            self.edit_strasse.setText(kunde_1[3])
-            self.edit_hausnr.setText(kunde_1[4])
-            self.edit_plz.setText(kunde_1[5])
-            self.edit_ort.setText(kunde_1[6])
-
-            self.edit_wr_hersteller.setText(kunde_1[7])
-            self.edit_wr_modell.setText(kunde_1[8])
-            self.edit_wr_anzahl.setText(kunde_1[9])
-            self.edit_wr_wirkleistung.setText(kunde_1[10])
-            self.edit_wr_scheinleistung.setText(kunde_1[11])
-
-            self.edit_pv_leistung.setText(kunde_1[12])
-
-
-            #for i in self.liste_kunde:
-                #self.liste_kunde.setText(kunde_1)
-
-        elif self.dp_kunden.currentText() == 'Lisa Licht':
-            self.edit_kundennr.setText(kunde_2[0])
-            self.edit_name.setText(kunde_2[1])
-            self.edit_vorname.setText(kunde_2[2])
-            self.edit_strasse.setText(kunde_2[3])
-            self.edit_hausnr.setText(kunde_2[4])
-            self.edit_plz.setText(kunde_2[5])
-            self.edit_ort.setText(kunde_2[6])
-
-            self.edit_wr_hersteller.setText(kunde_2[7])
-            self.edit_wr_modell.setText(kunde_2[8])
-            self.edit_wr_anzahl.setText(kunde_2[9])
-            self.edit_wr_wirkleistung.setText(kunde_2[10])
-            self.edit_wr_scheinleistung.setText(kunde_2[11])
-
-            self.edit_pv_leistung.setText(kunde_2[12])
-
-
-        elif self.dp_kunden.currentText() == 'Neu':
-            self.edit_kundennr.clear()
-            self.edit_name.clear()
-            self.edit_vorname.clear()
-            self.edit_strasse.clear()
-            self.edit_hausnr.clear()
-            self.edit_plz.clear()
-            self.edit_ort.clear()
-
-            self.edit_wr_hersteller.clear()
-            self.edit_wr_modell.clear()
-            self.edit_wr_anzahl.clear()
-            self.edit_wr_wirkleistung.clear()
-            self.edit_wr_scheinleistung.clear()
-            self.edit_pv_leistung.clear()
-
-            self.edit_wr_hersteller.setText(kunde_2[7])
-            self.edit_wr_modell.setText(kunde_2[8])
-            self.edit_wr_anzahl.setText(kunde_2[9])
-            self.edit_wr_wirkleistung.setText(kunde_2[10])
-            self.edit_wr_scheinleistung.setText(kunde_2[11])
-            self.edit_pv_leistung.setText(kunde_2[12])
+            self.edit_wr_hersteller.setText("Kostal")
+            self.edit_wr_modell.setText("Piko 6")
+            self.edit_wr_anzahl.setText("1")
+            self.edit_wr_wirkleistung.setText("6")
+            self.edit_wr_scheinleistung.setText("6")
+            self.edit_pv_leistung.setText("8,2")
 
     def pdf_erstellen(self):
-        if self.dp_kunden.currentText() == 'Siegbert Sonnenschein':
-            pdfdaten = kunde_1[1:13]
-        elif self.dp_kunden.currentText() == 'Lisa Licht':
-            pdfdaten = kunde_2[1:13]
-        elif self.dp_kunden.currentText() == 'Neu':
-            pdfdaten = self.edit_name.text(),self.edit_vorname.text(), self.edit_strasse.text(), self.edit_hausnr.text(), self.edit_plz.text(), self.edit_ort.text(),self.edit_wr_hersteller.text(), self.edit_wr_modell.text(), self.edit_wr_anzahl.text(), self.edit_wr_scheinleistung.text(), self.edit_wr_wirkleistung.text(), self.edit_pv_leistung.text()
-
+        pdfdaten = self.edit_name.text(),self.edit_vorname.text(), self.edit_strasse.text(), self.edit_hausnr.text(), self.edit_plz.text(), self.edit_ort.text(),self.edit_wr_hersteller.text(), self.edit_wr_modell.text(), self.edit_wr_anzahl.text(), self.edit_wr_scheinleistung.text(), self.edit_wr_wirkleistung.text(), self.edit_pv_leistung.text()
         ausfuellen(pdfdaten)
         flatten(pdfdaten[0])
 
