@@ -44,7 +44,7 @@ class Ui_frm_kundenkartei(object):
 
     def retranslateUi(self, frm_kundenkartei):
         frm_kundenkartei.setWindowTitle(QCoreApplication.translate("frm_kundenkartei", u"Form", None))
-        self.lb_kundenkartei.setText(QCoreApplication.translate("frm_kundenkartei", u"Kundenkartei verwalten", None))
+        self.lb_kundenkartei.setText(QCoreApplication.translate("frm_kundenkartei", u"Kundenkartei xxx", None))
         self.bt_fertig.setText(QCoreApplication.translate("frm_kundenkartei", u"Fertig", None))
     # retranslateUi
 

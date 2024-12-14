@@ -1,5 +1,6 @@
 from pypdf import PdfReader, PdfWriter
 from spire.pdf import *
+import pyodbc
 
 #aus Ordner GUI (im selben Verzeichnis wie main.py) Klasse UI_frm_main aus py datei b.py (GUI) importieren
 from frm_main import Ui_frm_main
@@ -340,8 +341,33 @@ class Frm_main(QMainWindow, Ui_frm_main):
 
 
 #Verknüpfung Datenbank, in Klammern = Treiber der DB unterstützt
-db = QtSql.QSqlDatabase.addDatabase("QSQLITE")
-db.setDatabaseName("pv_rheinland.sql")
+# Connection string for Azure SQL Database
+connection_string = (
+    "DRIVER={ODBC Driver 17 for SQL Server};"
+    "SERVER=tcp:solarteamrheinland.database.windows.net,1433;"
+    "DATABASE=strDb;"
+    "UID=stradmin;"
+    "PWD=-u-D%-g2)?6$yzB;"
+    "Encrypt=yes;"
+    "TrustServerCertificate=no;"
+    "Connection Timeout=30;"
+)
+
+try:
+    # Connect to the database
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    print("Connected to the database successfully!")
+
+    # Example query
+    cursor.execute("SELECT TOP 10 * FROM dbo.Clients")
+    for row in cursor.fetchall():
+        print(row)
+
+    # Close the connection
+    conn.close()
+except Exception as e:
+    print("Error:", e)
 
 
 #Objekte anlegen: app=Anwendung, frm = Formular

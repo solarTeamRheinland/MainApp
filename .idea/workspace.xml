@@ -5,6 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e0c01fc-d119-4581-8339-97a91e74cac6" name="Changes" comment="Init">
+      <change beforePath="$USER_HOME$/PycharmProjects/MainApp/.idea/MainApp.iml" beforeDir="false" afterPath="$USER_HOME$/PycharmProjects/MainApp/.idea/MainApp.iml" afterDir="false" />
+      <change beforePath="$USER_HOME$/PycharmProjects/MainApp/.idea/misc.xml" beforeDir="false" afterPath="$USER_HOME$/PycharmProjects/MainApp/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$USER_HOME$/PycharmProjects/MainApp/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/PycharmProjects/MainApp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$USER_HOME$/PycharmProjects/MainApp/e2_ausgefuellt_Licht.pdf" beforeDir="false" />
+      <change beforePath="$USER_HOME$/PycharmProjects/MainApp/frm_kundenkartei.py" beforeDir="false" afterPath="$USER_HOME$/PycharmProjects/MainApp/frm_kundenkartei.py" afterDir="false" />
+      <change beforePath="$USER_HOME$/PycharmProjects/MainApp/frm_main.py" beforeDir="false" afterPath="$USER_HOME$/PycharmProjects/MainApp/frm_main.py" afterDir="false" />
       <change beforePath="$USER_HOME$/PycharmProjects/MainApp/main.py" beforeDir="false" afterPath="$USER_HOME$/PycharmProjects/MainApp/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -15,35 +21,35 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$/PycharmProjects/MainApp" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "solarTeamRheinland"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;solarTeamRheinland&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/solarTeamRheinland/MainApp.git",
-    "accountId": "1b4f199c-05c1-40d7-81aa-77867c3b9490"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/solarTeamRheinland/MainApp.git&quot;,
+    &quot;accountId&quot;: &quot;1b4f199c-05c1-40d7-81aa-77867c3b9490&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2q7sQYp4G5QKHVmzcTLM4PKjsvu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Esteban Andres\PycharmProjects\MainApp" />

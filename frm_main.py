@@ -199,7 +199,7 @@ class Ui_frm_main(object):
     def retranslateUi(self, frm_main):
         frm_main.setWindowTitle(QCoreApplication.translate("frm_main", u"MainWindow", None))
         self.actionBeenden.setText(QCoreApplication.translate("frm_main", u"Beenden", None))
-        self.actionKunden_verwalten.setText(QCoreApplication.translate("frm_main", u"Kunden verwalten", None))
+        self.actionKunden_verwalten.setText(QCoreApplication.translate("frm_main", u"Kunden xxxx", None))
         self.actionTechnische_Daten_verwalten.setText(QCoreApplication.translate("frm_main", u"Technische Daten verwalten", None))
         self.bt_pdf_erstellen.setText(QCoreApplication.translate("frm_main", u"PDF erstellen", None))
         self.dp_kunden.setItemText(0, QCoreApplication.translate("frm_main", u"Siegbert Sonnenschein", None))
@@ -215,7 +215,7 @@ class Ui_frm_main(object):
         self.lb_prozess.setText(QCoreApplication.translate("frm_main", u"Prozess ausw\u00e4hlen:", None))
         self.lb_name.setText(QCoreApplication.translate("frm_main", u"Name:", None))
         self.lb_strasse.setText(QCoreApplication.translate("frm_main", u"Stra\u00dfe:", None))
-        self.bt_kundenkartei.setText(QCoreApplication.translate("frm_main", u"Kundenkartei verwalten", None))
+        self.bt_kundenkartei.setText(QCoreApplication.translate("frm_main", u"Kundenkartei xxx", None))
         self.lb_ort.setText(QCoreApplication.translate("frm_main", u"Ort:", None))
         self.lb_plz.setText(QCoreApplication.translate("frm_main", u"PLZ:", None))
         self.lb_hausnr.setText(QCoreApplication.translate("frm_main", u"Hausnummer:", None))
