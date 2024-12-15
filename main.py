@@ -8,67 +8,35 @@ from frm_kundenkartei import Ui_frm_kundenkartei
 
 
 #qapplication = Klasse die Anwendung steuer, QMainwindow = Hauptfenster
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PySide6 import QtSql
+from PySide6.QtGui import QIcon
 
 #designer öffnen: Terminal: pyside6-designer
 #wenn GUI Datei im Designer erstellt und gespeichert wurde, kann diese in eine Py-Datei konvertiert werden:
 #in Terminal: pyside6-uic frm_main.ui -o frm_main.py
 
-parameter = ["name",
-             "strasse",
-             "ort",
-             "herstellerwr",
-             "typwr",
-             "anzahlwr",
-             "scheinleistungwr",
-             "wirkleistungwr",
-             "leistungmodule",]
 
-kunde_neu = ["Neu",
-           "",
-           "",
-           "",
-           "SMA",
-           "Sunny Tripower Core1",
-           "1",
-           "50",
-           "50",
-           "54,8"]
-
-kunde_1 = ["41163",
-            "Sonnenschein",
-           "Siegbert",
-           "Sonnenallee",
-           "4",
-           "12345",
-           "Sonnenhausen",
-           "SMA",
-           "Sunny Tripower X12",
-           "1",
-           "12",
-           "12",
-           "13,4"]
-
-kunde_2 = ["56483",
-           "Licht",
-           "Lisa",
-           "An der Sonne",
-           "2",
-           "45678",
-           "Lichtenfels",
-           "Kostal",
-           "Piko 6",
-           "1",
-           "6",
-           "6",
-           "8,2"]
-
-kunden = [kunde_1, kunde_2]
-
+def resource_path(relative_path):
+    """
+    Get the absolute path to a resource, accounting for PyInstaller bundling.
+    - During development: Looks for the file directly (no _internal folder).
+    - After bundling: Adjusts to PyInstaller's structure (_MEIPASS or similar).
+    """
+    if getattr(sys, 'frozen', False):  # If running as a PyInstaller bundle
+        base_path = sys._MEIPASS  # Temporary extraction folder created by PyInstaller
+    else:
+        base_path = os.path.abspath(".")  # Current directory during development
+    return os.path.join(base_path, relative_path)
 
 def ausfuellen(pdfdaten):
-    reader = PdfReader("e2.pdf")
+    pdf_path = resource_path("e2.pdf")
+
+    # Check if the file exists before proceeding
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"Required PDF file not found: {pdf_path}")
+
+    reader = PdfReader(pdf_path)
     writer = PdfWriter()
 
     # Sonst \Acroform-Error
@@ -259,6 +227,8 @@ class Frm_main(QMainWindow, Ui_frm_main):
         # dadurch werden alle Attribute von übergeordneter Klasse initialisiert
         super().__init__()
 
+        self.setWindowTitle("AutoPV")
+        self.setWindowIcon(QIcon(resource_path("logo.png")))
         #aus eigener Instanz (GUI) setupUI Methode aufrufen
         self.setupUi(self)
         self.bt_pdf_erstellen.clicked.connect(self.pdf_erstellen)
@@ -293,23 +263,47 @@ class Frm_main(QMainWindow, Ui_frm_main):
             self.liste_daten_fields["edit_wr_scheinleistung"].setText("6")
             self.liste_daten_fields["edit_pv_leistung"].setText("8,2")
 
+    from PySide6.QtWidgets import QMessageBox
+
     def pdf_erstellen(self):
-        pdfdaten = (
-            self.customer_fields["edit_name"].text(),
-            self.customer_fields["edit_vorname"].text(),
-            self.customer_fields["edit_strasse"].text(),
-            self.customer_fields["edit_hausnr"].text(),
-            self.customer_fields["edit_plz"].text(),
-            self.customer_fields["edit_ort"].text(),
-            self.liste_daten_fields["edit_wr_hersteller"].text(),
-            self.liste_daten_fields["edit_wr_modell"].text(),
-            self.liste_daten_fields["edit_wr_anzahl"].text(),
-            self.liste_daten_fields["edit_wr_scheinleistung"].text(),
-            self.liste_daten_fields["edit_wr_wirkleistung"].text(),
-            self.liste_daten_fields["edit_pv_leistung"].text(),
-        )
-        ausfuellen(pdfdaten)
-        flatten(pdfdaten[0])
+        try:
+            # Collecting the data
+            pdfdaten = (
+                self.customer_fields["edit_name"].text(),
+                self.customer_fields["edit_vorname"].text(),
+                self.customer_fields["edit_strasse"].text(),
+                self.customer_fields["edit_hausnr"].text(),
+                self.customer_fields["edit_plz"].text(),
+                self.customer_fields["edit_ort"].text(),
+                self.liste_daten_fields["edit_wr_hersteller"].text(),
+                self.liste_daten_fields["edit_wr_modell"].text(),
+                self.liste_daten_fields["edit_wr_anzahl"].text(),
+                self.liste_daten_fields["edit_wr_scheinleistung"].text(),
+                self.liste_daten_fields["edit_wr_wirkleistung"].text(),
+                self.liste_daten_fields["edit_pv_leistung"].text(),
+            )
+
+            # Attempt to fill and flatten the PDF
+            ausfuellen(pdfdaten)
+
+            # Show success dialog
+            success_dialog = QMessageBox()
+            success_dialog.setIcon(QMessageBox.Information)
+            success_dialog.setWindowTitle("Erfolg")
+            success_dialog.setWindowIcon(QIcon(resource_path("logo.png")))
+            success_dialog.setText("PDF wurde erfolgreich erstellt!")
+            success_dialog.setInformativeText("Die Datei wurde im Ausgabeverzeichnis gespeichert.")
+            success_dialog.exec()
+
+        except Exception as e:
+            # Show an error dialog with the exception message
+            error_dialog = QMessageBox()
+            error_dialog.setIcon(QMessageBox.Critical)
+            error_dialog.setWindowTitle("Error")
+            error_dialog.setText("An error occurred while creating the PDF.")
+            error_dialog.setInformativeText(str(e))
+            error_dialog.exec()
+
 
 def fetch_data_from_db():
     # Connection string for Azure SQL Database

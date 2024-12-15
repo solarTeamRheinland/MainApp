@@ -18,7 +18,7 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout, QGridLayout, QHBoxLayout)
+    QPushButton, QSizePolicy, QStatusBar, QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout, QGridLayout, QHBoxLayout, QStyle)
 
 import re
 
@@ -40,7 +40,7 @@ class Ui_frm_main(object):
         # Logo
         self.lb_logo = QLabel(self.centralwidget)
         self.lb_logo.setObjectName(u"lb_logo")
-        self.lb_logo.setPixmap(QPixmap(u"../../logo_neu-removebg-preview.png"))
+        self.lb_logo.setPixmap(QPixmap("logo.jpg"))
         self.lb_logo.setScaledContents(True)
         self.lb_logo.setMaximumSize(QSize(200, 60))
 
@@ -57,7 +57,9 @@ class Ui_frm_main(object):
 
         self.bt_refresh = QPushButton(self.centralwidget)
         self.bt_refresh.setObjectName(u"bt_refresh")
-        self.bt_refresh.setText("Update Data")
+        self.bt_refresh.setText("Aktualisieren")
+        refresh_icon = self.style().standardIcon(QStyle.SP_BrowserReload)
+        self.bt_refresh.setIcon(QIcon(refresh_icon))
         self.bt_refresh.setFont(QFont("Arial", 10, QFont.Bold))
         self.bt_refresh.setFixedWidth(120)  # Fix the button width
         self.bt_refresh.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)  # Prevent it from stretching
